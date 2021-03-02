@@ -22,20 +22,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
-		.antMatchers("/registration/**",
+		.antMatchers("/registration**",
                 "/js/**",
                 "/css/**",
                 "/img/**",
                 "/webjars/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/registration/**").permitAll()
-		.antMatchers("/products").hasRole("Admin")
+		.antMatchers("/products").hasAuthority("Admin")
 		.anyRequest().authenticated()
 		.and()
         .formLogin()
-        .loginPage("/login")
+        .loginProcessingUrl("/login")
         .permitAll()
 		.and()
 		.logout()
+		.permitAll()
 		.invalidateHttpSession(true)
         .clearAuthentication(true)
 		.permitAll()
