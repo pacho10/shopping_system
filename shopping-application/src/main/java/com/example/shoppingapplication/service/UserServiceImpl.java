@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.shoppingapplication.controller.BlockDto;
 import com.example.shoppingapplication.dto.UserDto;
 import com.example.shoppingapplication.model.Role;
 import com.example.shoppingapplication.model.User;
@@ -58,6 +59,18 @@ public class UserServiceImpl implements UserService {
 		user.setLastName(userDto.getLastName());
 		user.setIsBlocked(false);
 		user.setRole(role);
+		
+		return userRepository.save(user);
+	}
+
+	@Override
+	public User blockUser(Long id, BlockDto blockDto) {
+		User user = userRepository.findById(id).get();	
+		if (user == null) {
+			throw new UsernameNotFoundException("User not found");
+		}
+		
+		user.setIsBlocked(blockDto.getIsBlocked());
 		
 		return userRepository.save(user);
 	}

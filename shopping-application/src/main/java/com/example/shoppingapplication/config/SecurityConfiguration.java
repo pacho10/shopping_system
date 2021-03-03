@@ -28,7 +28,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/img/**",
                 "/webjars/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/registration/**").permitAll()
-		.antMatchers("/products").hasAuthority("Admin")
+		.antMatchers("/products/**").hasAuthority("Admin")
+		.antMatchers("/block/**").hasAuthority("Admin")
 		.anyRequest().authenticated()
 		.and()
         .formLogin()
@@ -39,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.permitAll()
 		.invalidateHttpSession(true)
         .clearAuthentication(true)
-		.permitAll()
+//		.permitAll()
 		.and()
 		.csrf().disable();
 	}
